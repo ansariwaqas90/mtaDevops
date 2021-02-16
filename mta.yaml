@@ -1,0 +1,84 @@
+_schema-version: "3.2"
+ID: mtademo1
+version: 0.0.1
+modules:
+- name: mtademo1-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: mtademo1-destination-service
+    parameters:
+      content-target: true
+  - name: mtademo1_html_repo_host
+    parameters:
+      service-key:
+        name: mtademo1_html_repo_host-key
+  - name: uaa_mtademo1
+    parameters:
+      service-key:
+        name: uaa_mtademo1-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: mtademo1_mtademo1_html_repo_host
+          ServiceInstanceName: mtademo1-html5-app-host-service
+          ServiceKeyName: mtademo1_html_repo_host-key
+          sap.cloud.service: mtademo1
+        - Authentication: OAuth2UserTokenExchange
+          Name: mtademo1_uaa_mtademo1
+          ServiceInstanceName: mtademo1-xsuaa-service
+          ServiceKeyName: uaa_mtademo1-key
+          sap.cloud.service: mtademo1
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: mtademo1_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: mtademo1_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - ui-content.zip
+      name: ui
+      target-path: resources/
+- name: ui
+  type: html5
+  path: ui
+  build-parameters:
+    builder: custom
+    commands:
+    - npm run build
+    supported-platforms: []
+resources:
+- name: mtademo1-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      version: 1.0.0
+    service: destination
+    service-name: mtademo1-destination-service
+    service-plan: lite
+- name: mtademo1_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: mtademo1-html5-app-host-service
+    service-plan: app-host
+- name: uaa_mtademo1
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: mtademo1-xsuaa-service
+    service-plan: application
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm install
