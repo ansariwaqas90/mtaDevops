@@ -52,7 +52,7 @@ modules:
   build-parameters:
     builder: custom
     commands:
-    - npm run build
+    - npm
     supported-platforms: []
 resources:
 - name: mtademo1-destination-service

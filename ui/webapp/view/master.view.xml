@@ -4,7 +4,7 @@
 			<pages>
 				<Page id="page" title="{i18n>title}">
 					<content>
-                        <Text text="Hllo world"></Text>
+                        <Text text=" Hello world"></Text>
                     </content>
 				</Page>
 			</pages>
