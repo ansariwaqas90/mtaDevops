@@ -1,0 +1,41 @@
+<mvc:View controllerName="com.test.ui.controller.Master" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="{i18n>title}">
+					<content>
+                        <Table items="{/SalesOrderSet}">
+							<columns>
+								<Column>
+									<Text text="SalesOrderID"/>
+								</Column>
+								<Column>
+									<Text text="CustomerName"/>
+								</Column>
+                                	<Column>
+									<Text text="GrossAmount"/>
+								</Column>
+
+                                	<Column>
+									<Text text="CurrencyCode"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<Text text="{SalesOrderID}"/>
+                                        <Text text="{CustomerName}"/>
+                                        <Text text="{GrossAmount}"/>
+                                         <Text text="{CurrencyCode}"/>
+										
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					    
+                    </content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
